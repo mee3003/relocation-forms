@@ -23,7 +23,7 @@ const options: any = {
   componentRestrictions: { country: ["de", "at"] },
 };
 
-const apiKey = "AIzaSyBqLiqt8OVntKCwcjqgmWtl5nj0y4_xs7A";
+const apiKey = "AIzaSyBqLiqt8OVntKCwcjqgmWtl5nj0y4_xs7A2";
 
 const AddressControl = (props: Props) => {
   const { label, data, handleChange, path } = props;
