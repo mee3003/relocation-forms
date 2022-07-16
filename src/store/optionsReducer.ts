@@ -21,7 +21,6 @@ const optionsSlice = createSlice<AppOptions, any, "options">({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loadAllOptions.fulfilled, (state, action) => {
-      console.log("disse");
       state.options = action.payload;
     });
   },

@@ -6,7 +6,7 @@ const Root = styled.div`
   display: flex;
   justify-content: end;
   padding: 1.2rem 0.6rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.42); ;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.42); ;
 `;
 
 export const Heading: React.FunctionComponent<{

@@ -10,15 +10,18 @@ interface Props {
   value: any;
   onChange: (value: any) => void;
   label: string;
+  minDate?: any;
 }
 
-export const DatePicker: React.FC<Props> = ({ onChange, value, label }) => {
+export const DatePicker: React.FC<Props> = ({ onChange, value, label, minDate }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={deLocale}>
       <DesktopDatePicker
         disablePast
         disableMaskedInput
+        minDate={minDate}
         label={label}
+        inputFormat="dd.MM.yyyy"
         value={value}
         onChange={onChange}
         renderInput={(params) => <TextField {...params} variant="standard" />}

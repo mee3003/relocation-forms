@@ -6,4 +6,5 @@ export const PageRoot = styled.div`
   max-width: 800px;
   margin: auto;
   gap: 3rem;
+  padding: 0.6rem;
 `;

@@ -1,6 +1,12 @@
 import React from "react";
-import { Step1 } from "../components/steps/step-1";
+import { Customer } from "../components/customer";
+import { DateWidget } from "../components/date/DateWidget";
 
 export const Step1Page: React.FC = () => {
-  return <Step1 />;
+  return (
+    <>
+      <Customer />
+      <DateWidget />
+    </>
+  );
 };

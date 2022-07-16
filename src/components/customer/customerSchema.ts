@@ -1,4 +1,4 @@
-import { JsonSchema7 } from "@jsonforms/core";
+import { JsonSchema } from "@jsonforms/core";
 
 export const ui = {
   type: "VerticalLayout",
@@ -10,6 +10,12 @@ export const ui = {
           type: "Control",
           scope: "#/properties/salutation",
         },
+      ],
+    },
+    {
+      type: "HorizontalLayout",
+
+      elements: [
         {
           type: "Control",
           scope: "#/properties/firstName",
@@ -20,6 +26,7 @@ export const ui = {
         },
       ],
     },
+
     {
       type: "VerticalLayout",
       elements: [
@@ -40,9 +47,9 @@ export const ui = {
   ],
 };
 
-export const customerSchema: JsonSchema7 = {
+export const customerSchema: JsonSchema = {
   type: "object",
-  required: ["lastName", "firstName"],
+  required: ["lastName", "firstName", "email", "telNumber"],
   properties: {
     company: {
       type: "string",
@@ -50,7 +57,7 @@ export const customerSchema: JsonSchema7 = {
     },
     salutation: {
       type: "string",
-      enum: ["", "Frau", "Herr"],
+      enum: ["-", "Frau", "Herr"],
       title: "Anrede",
     },
     firstName: {
@@ -69,7 +76,6 @@ export const customerSchema: JsonSchema7 = {
     telNumber: {
       title: "Tel. Nummer",
       type: "string",
-      pattern: "^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$",
     },
     costsAssumption: {
       type: "boolean",

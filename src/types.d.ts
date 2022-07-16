@@ -5,6 +5,7 @@ export interface Customer {
   company: string;
   telNumber: string;
   email: string;
+  costsAssumption: boolean;
 }
 
 export interface Category {
@@ -38,7 +39,6 @@ export interface Item {
 }
 
 export interface Order {
-  status: string;
   customer: Customer;
   date: string;
   date_from: string;
@@ -55,12 +55,10 @@ export interface Order {
   disposalFlag: boolean;
   disposalText: string;
   creationTime: string;
-
   expensive: boolean;
   expensiveText: string;
   images: string[];
   volume: string;
-  sum: string;
   src: string;
 }
 
@@ -73,4 +71,24 @@ export interface Service {
   colli: string;
   imgUrl: string;
   show: boolean;
+}
+
+export interface Address {
+  floor: string;
+  isAltbau: boolean;
+  roomsNumber: string;
+  parkingSlot: boolean;
+  area: string;
+  personsNumber?: string;
+  liftType: string;
+  runningDistance: string;
+  address: string;
+  movementObject?: string;
+  hasLoft: boolean;
+  packservice: boolean;
+  demontage?: boolean;
+  montage?: boolean;
+  stockwerke?: string[];
+  keller: boolean;
+  garage: boolean;
 }
