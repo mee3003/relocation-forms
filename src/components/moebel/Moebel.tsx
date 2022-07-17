@@ -13,7 +13,8 @@ const Root = styled.div`
 `;
 
 export const Moebel: React.FC = () => {
-  const categories = useSelector<AppState, Category[]>((state) => state.appCategories.categories) || [];
+  const categories =
+    useSelector<AppState, Category[]>((state) => state.appCategories.categories) || [];
   const AllCategories = categories.map((cat) => (
     <CategorieRenderer id={Number(cat.id)} key={cat.name} categorie={cat.name} />
   ));

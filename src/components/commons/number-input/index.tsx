@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
-import React from "react";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import { InputLabel } from "@mui/material";
+import RemoveIcon from "@mui/icons-material/Remove";
+import { FormControl, FormLabel } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import React, { useId } from "react";
 
 interface Props {
   label: string;
-  value?: number;
+  value?: any;
   onChange: (value: number) => void;
   step?: number;
 }
@@ -27,21 +27,49 @@ const LabelWrapper = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-export const NumberInput: React.FC<Props> = ({ value = 0, label, onChange, step = 1 }) => {
+export const NumberInput: React.FC<Props> = ({ value, label, onChange, step = 1 }) => {
+  const labelId = useId();
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(Number(event.target.value));
+  };
+
+  const onMinus = () => {
+    if (value && value > 0) {
+      onChange(value - 1);
+    }
+  };
+
+  const onPlus = () => {
+    if (value) {
+      return onChange(value + 1);
+    }
+    onChange(1);
+  };
+
   return (
     <Root>
-      <LabelWrapper>
-        <InputLabel>{label}</InputLabel>
-      </LabelWrapper>
-      <Input>
-        <IconButton>
-          <RemoveIcon />
-        </IconButton>
-        <TextField inputProps={{ min: 0, style: { textAlign: "center" } }} value={value} size="small" type={"number"} />
-        <IconButton>
-          <AddIcon />
-        </IconButton>
-      </Input>
+      <FormControl>
+        <LabelWrapper>
+          <FormLabel id={labelId}>{label}</FormLabel>
+        </LabelWrapper>
+        <Input>
+          <IconButton onClick={onMinus}>
+            <RemoveIcon />
+          </IconButton>
+          <TextField
+            aria-labelledby={labelId}
+            inputProps={{ min: 0, style: { textAlign: "center" } }}
+            value={value}
+            size="small"
+            type={"number"}
+            onChange={handleInputChange}
+          />
+          <IconButton onClick={onPlus}>
+            <AddIcon />
+          </IconButton>
+        </Input>
+      </FormControl>
     </Root>
   );
 };

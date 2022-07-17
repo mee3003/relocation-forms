@@ -24,7 +24,7 @@ export interface Item {
   categories: string[];
   name: string;
   id: string;
-  colli: string;
+  colli: number;
   volume: number;
   demontage?: boolean;
   notDismountable?: boolean;

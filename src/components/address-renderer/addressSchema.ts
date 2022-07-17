@@ -22,7 +22,7 @@ export const liftSchema = {
   },
 };
 
-export const part1 = {
+export const part1 = (movementLabel: string): JsonSchema => ({
   type: "object",
   required: ["address", "runningDistance", "movementObject"],
   properties: {
@@ -40,12 +40,12 @@ export const part1 = {
       enum: parkingDistances,
     },
     movementObject: {
-      title: "Auszug aus",
+      title: movementLabel,
       type: "string",
       enum: movementObjects,
     },
   },
-};
+});
 
 export const stockwerkSchema: JsonSchema = {
   type: "object",

@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useOrderContext } from "../../context/OrderContext";
 import { AppState } from "../../store";
 import itemsReducer from "../../store/itemsReducer";
 import { Item } from "../../types";
@@ -27,11 +28,21 @@ interface Props {
 }
 
 export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescription, id }) => {
+  const { dispatch } = useOrderContext();
+
   const allItems = useSelector<AppState, Item[]>((state) => state.appItems.items);
 
-  const filtered = allItems.filter((item) => item.categoryRefs?.findIndex((c) => c.id == String(id)) > -1);
+  const filtered = allItems.filter(
+    (item) => item.categoryRefs?.findIndex((c) => c.id == String(id)) > -1
+  );
 
   filtered.sort((a, b) => a.sortOrder - b.sortOrder);
+
+  const onChange = (item: Item, value: number) => {
+    dispatch({ type: "SET_ORDER_ITEM", payload: { item, value } });
+  };
+
+  console.log("rendere cat");
 
   return (
     <Root>
@@ -39,7 +50,13 @@ export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescrip
       <Wrapper>
         <Items>
           {filtered.map((i) => (
-            <ItemRenderer key={i.name} item={i} colli={0} />
+            <ItemRenderer
+              onChange={(value) => {
+                onChange(i, value);
+              }}
+              key={i.name}
+              item={i}
+            />
           ))}
         </Items>
       </Wrapper>

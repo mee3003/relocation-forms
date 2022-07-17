@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from "react";
-import { Address, Customer, Order } from "../types";
+import { Address, Customer, Item, Order } from "../types";
 
 type CustomerAction = {
   type: "SET_CUSTOMER";
@@ -16,7 +16,15 @@ type OrderPropAction = {
   };
 };
 
-type Action = CustomerAction | OrderPropAction;
+type ItemAction = {
+  type: "SET_ORDER_ITEM";
+  payload: {
+    item: Item;
+    value: number;
+  };
+};
+
+type Action = CustomerAction | OrderPropAction | ItemAction;
 
 const reducer = (state: Order, action: Action): Order => {
   switch (action.type) {
@@ -26,6 +34,24 @@ const reducer = (state: Order, action: Action): Order => {
     case "SET_ORDER_PROP": {
       let a = { ...state, [action.payload.prop]: action.payload.value };
       return a;
+    }
+    case "SET_ORDER_ITEM": {
+      const { item, value } = action.payload;
+
+      let newItems = state.items;
+      if (value === 0) {
+        newItems = newItems.filter((i) => i.id !== item.id);
+        return { ...state, items: newItems };
+      }
+
+      const itemIndex = newItems.findIndex((i) => i.id == item.id);
+
+      if (itemIndex > -1) {
+        newItems[itemIndex].colli = value;
+      } else {
+        newItems.push({ ...item, colli: value });
+      }
+      return { ...state, items: newItems };
     }
 
     default:
@@ -43,6 +69,7 @@ const initialState: Order = {
   customer: {
     costsAssumption: false,
   },
+  items: new Array<Item>(),
   isDateFix: false,
   from: {
     address: "",

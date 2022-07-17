@@ -57,6 +57,7 @@ export const Stepper: React.FC = () => {
       if (index < routes.length) {
         const nextPathname = routes[index + 1];
         navigate(nextPathname);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
   };
