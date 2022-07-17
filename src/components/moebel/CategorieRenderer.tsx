@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useOrderContext } from "../../context/OrderContext";
 import { AppState } from "../../store";
-import itemsReducer from "../../store/itemsReducer";
 import { Item } from "../../types";
 import { Heading } from "../commons/heading";
 import { ItemRenderer } from "./ItemRenderer";
@@ -24,7 +23,7 @@ const Wrapper = styled.div``;
 interface Props {
   categorie: string;
   categorieDescription?: string;
-  id: number;
+  id: string;
 }
 
 export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescription, id }) => {
@@ -32,17 +31,18 @@ export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescrip
 
   const allItems = useSelector<AppState, Item[]>((state) => state.appItems.items);
 
-  const filtered = allItems.filter(
-    (item) => item.categoryRefs?.findIndex((c) => c.id == String(id)) > -1
-  );
-
-  filtered.sort((a, b) => a.sortOrder - b.sortOrder);
-
   const onChange = (item: Item, value: number) => {
-    dispatch({ type: "SET_ORDER_ITEM", payload: { item, value } });
+    dispatch({ type: "SET_ORDER_ITEM", payload: { item, value, categorie } });
   };
 
-  console.log("rendere cat");
+  const filtered = useMemo(() => {
+    const filtered = allItems.filter(
+      (item) => item.categoryRefs?.findIndex((c) => c.id == id) > -1
+    );
+    filtered.sort((a, b) => a.sortOrder - b.sortOrder);
+
+    return filtered;
+  }, [allItems, id]);
 
   return (
     <Root>
@@ -51,6 +51,7 @@ export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescrip
         <Items>
           {filtered.map((i) => (
             <ItemRenderer
+              categorie={categorie}
               onChange={(value) => {
                 onChange(i, value);
               }}

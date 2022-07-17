@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from "react";
-import { Address, Customer, Item, Order } from "../types";
+import { Customer, Item, Order } from "../types";
 
 type CustomerAction = {
   type: "SET_CUSTOMER";
@@ -21,10 +21,19 @@ type ItemAction = {
   payload: {
     item: Item;
     value: number;
+    categorie: string;
   };
 };
 
 type Action = CustomerAction | OrderPropAction | ItemAction;
+
+const calcVolume = (items: Item[]): string => {
+  return items
+    .reduce((acc, item) => {
+      return acc + item.colli * item.volume;
+    }, 0)
+    .toFixed(1);
+};
 
 const reducer = (state: Order, action: Action): Order => {
   switch (action.type) {
@@ -36,22 +45,21 @@ const reducer = (state: Order, action: Action): Order => {
       return a;
     }
     case "SET_ORDER_ITEM": {
-      const { item, value } = action.payload;
+      const { item, value, categorie } = action.payload;
 
-      let newItems = state.items;
-      if (value === 0) {
-        newItems = newItems.filter((i) => i.id !== item.id);
-        return { ...state, items: newItems };
-      }
+      const newItems = [...state.items];
 
-      const itemIndex = newItems.findIndex((i) => i.id == item.id);
+      const itemIndex = newItems.findIndex((i) => {
+        return i.id === item.id && i.categories?.[0] === categorie;
+      });
 
       if (itemIndex > -1) {
         newItems[itemIndex].colli = value;
       } else {
-        newItems.push({ ...item, colli: value });
+        newItems.push({ ...item, colli: value, categories: [categorie] });
       }
-      return { ...state, items: newItems };
+
+      return { ...state, items: newItems, volume: calcVolume(newItems) };
     }
 
     default:

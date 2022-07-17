@@ -28,19 +28,25 @@ const LabelWrapper = styled.div`
 `;
 
 export const NumberInput: React.FC<Props> = ({ value, label, onChange, step = 1 }) => {
-  const labelId = useId();
+  const inputId = useId();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(Number(event.target.value));
   };
 
+  const focusInput = () => {
+    document.getElementById(inputId)?.focus();
+  };
+
   const onMinus = () => {
+    focusInput();
     if (value && value > 0) {
       onChange(value - 1);
     }
   };
 
   const onPlus = () => {
+    focusInput();
     if (value) {
       return onChange(value + 1);
     }
@@ -51,14 +57,14 @@ export const NumberInput: React.FC<Props> = ({ value, label, onChange, step = 1 
     <Root>
       <FormControl>
         <LabelWrapper>
-          <FormLabel id={labelId}>{label}</FormLabel>
+          <FormLabel>{label}</FormLabel>
         </LabelWrapper>
         <Input>
           <IconButton onClick={onMinus}>
             <RemoveIcon />
           </IconButton>
           <TextField
-            aria-labelledby={labelId}
+            id={inputId}
             inputProps={{ min: 0, style: { textAlign: "center" } }}
             value={value}
             size="small"
