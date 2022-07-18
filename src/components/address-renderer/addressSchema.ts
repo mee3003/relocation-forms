@@ -1,6 +1,6 @@
 import { JsonSchema } from "@jsonforms/core";
 
-const squares = () => ["-", ...[...new Array(15).keys()].map((k) => `${(k + 1) * 10} m²`)];
+const squares = ["-", ...[...new Array(15).keys()].map((k) => `${(k + 1) * 10} m²`)];
 
 const etagen = ["UG", "EG", ...[...new Array(8).keys()].map((k) => `${k + 1}. Etage`), "9+ Etage"];
 
@@ -95,6 +95,7 @@ export const part2: JsonSchema = {
     area: {
       type: "string",
       title: "Wohnfläche, m²",
+      enum: squares,
     },
     hasLoft: {
       type: "boolean",
