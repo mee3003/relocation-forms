@@ -1,4 +1,4 @@
-const prefix = "https://umzug-meister.de/wp-json/um-configurator/v1/";
+const prefix = process.env.REACT_APP_BACKEND + "/wp-json/um-configurator/v1/";
 
 const headers: any = {
   "Content-Type": "application/json; charset=UTF-8",
