@@ -4,13 +4,6 @@ import { TextField } from "@mui/material";
 import { Loader } from "@googlemaps/js-api-loader";
 import styled from "@emotion/styled";
 
-interface Props {
-  data: any;
-  handleChange(path: string, value: any): void;
-  path: string;
-  label: string;
-}
-
 const Root = styled.div`
   width: 100%;
   & .MuiTextField-root {
@@ -23,8 +16,8 @@ const options: any = {
   componentRestrictions: { country: ["de", "at"] },
 };
 
-const AddressControl = (props: Props) => {
-  const { label, data, handleChange, path } = props;
+const AddressControl = (props: any) => {
+  const { label, data, handleChange, path, required } = props;
 
   const initGoogleAutocomplete = () => {
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY!;
@@ -49,6 +42,7 @@ const AddressControl = (props: Props) => {
   return (
     <Root>
       <TextField
+        required={required}
         onChange={(ev) => {
           handleChange(path, ev.target.value);
         }}

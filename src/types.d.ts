@@ -48,6 +48,7 @@ export interface Order {
   to: Address;
   services: Service[];
   items: Item[];
+  kleiderbox: number;
   boxNumber: number;
   text: string;
   usmFlag: boolean;

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
-import { Category, Item } from "../../types";
+import { Category } from "../../types";
 import { CategorieRenderer } from "./CategorieRenderer";
 
 const Root = styled.div`

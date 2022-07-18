@@ -20,19 +20,13 @@ export const Stepper: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const backDisabled = useCallback(
-    (cur: string) => {
-      return cur === routes[0];
-    },
-    [routes]
-  );
+  const backDisabled = useCallback((cur: string) => {
+    return cur === routes[0];
+  }, []);
 
-  const isLastStep = useCallback(
-    (cur: string) => {
-      return cur === routes[routes.length - 1];
-    },
-    [routes]
-  );
+  const isLastStep = useCallback((cur: string) => {
+    return cur === routes[routes.length - 1];
+  }, []);
 
   const getPathIndex = () => {
     return routes.findIndex((e) => e === pathname);
@@ -57,22 +51,12 @@ export const Stepper: React.FC = () => {
       if (index < routes.length) {
         const nextPathname = routes[index + 1];
         navigate(nextPathname);
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0 });
       }
     }
   };
 
-  const lastStep = isLastStep(pathname);
-
   const step = Number(pathname.replace("/", "")) - 1;
-
-  const NextButton = lastStep ? (
-    <Button variant="contained">Absenden</Button>
-  ) : (
-    <Button variant="contained" onClick={forward}>
-      Weiter
-    </Button>
-  );
 
   return (
     <Root>
@@ -82,11 +66,15 @@ export const Stepper: React.FC = () => {
         steps={routes.length}
         activeStep={step}
         backButton={
-          <Button variant="outlined" disabled={backDisabled(pathname)} onClick={back}>
+          <Button disabled={backDisabled(pathname)} onClick={back}>
             Zurück
           </Button>
         }
-        nextButton={NextButton}
+        nextButton={
+          <Button variant="outlined" disabled={isLastStep(pathname)} onClick={forward}>
+            Weiter
+          </Button>
+        }
       />
     </Root>
   );

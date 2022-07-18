@@ -5,3 +5,5 @@ export const myBooleanTester = rankWith(3, isBooleanControl);
 export const myParkingTester = rankWith(4, scopeEndsWith("parkingSlot"));
 
 export const myAddressTester = rankWith(3, scopeEndsWith("address"));
+
+export const myExpensiveTester = rankWith(3, scopeEndsWith("expensiveText"));

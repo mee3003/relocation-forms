@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Provider, useDispatch } from "react-redux";
 import { AppRoutes } from "./AppRoutes";
 import { AppContextProvider } from "./context/AppContext";
-import { OrderContextProvider } from "./context/OrderContext";
 import { store } from "./store";
 import { loadAllCategories } from "./store/catReducer";
 import { loadAllItems } from "./store/itemsReducer";
@@ -13,11 +12,9 @@ function App() {
   return (
     <Provider store={store}>
       <AppContextProvider>
-        <OrderContextProvider>
-          <AppLoader>
-            <AppRoutes />
-          </AppLoader>
-        </OrderContextProvider>
+        <AppLoader>
+          <AppRoutes />
+        </AppLoader>
       </AppContextProvider>
     </Provider>
   );

@@ -1,19 +1,24 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AddressRenderer } from "../components/address-renderer/AddressRender";
 import { Heading } from "../components/commons/heading";
-import { useOrderContext } from "../context/OrderContext";
+import { AppState } from "../store";
+import { setOrderProps } from "../store/orderReducer";
+import { Address } from "../types";
 
 export const Step3Einzug: React.FC = () => {
-  const { state, dispatch } = useOrderContext();
+  const data = useSelector<AppState, Address>((state) => state.order.to);
+
+  const dispatch = useDispatch();
 
   const onData = (data: any) => {
-    dispatch({ type: "SET_ORDER_PROP", payload: { prop: "to", value: data } });
+    dispatch(setOrderProps({ prop: "to", value: data }));
   };
 
   return (
     <>
       <Heading label="Einzugsadresse" />
-      <AddressRenderer data={state.to} onData={onData} config={{ movementLabel: "Einzug in" }} />
+      <AddressRenderer data={data} onData={onData} config={{ movementLabel: "Einzug in" }} />
     </>
   );
 };

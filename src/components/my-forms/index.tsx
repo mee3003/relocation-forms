@@ -6,8 +6,14 @@ import React from "react";
 import { useAppContext } from "../../context/AppContext";
 import AddressControl from "../commons/controls/AddressControl";
 import BooleanControl from "../commons/controls/BooleanControl";
+import ExpensiveTextControl from "../commons/controls/ExpensiveTextControl";
 import ParkingControl from "../commons/controls/ParkingControl";
-import { myAddressTester, myBooleanTester, myParkingTester } from "../schemaTester";
+import {
+  myAddressTester,
+  myBooleanTester,
+  myExpensiveTester,
+  myParkingTester,
+} from "../schemaTester";
 
 interface Props {
   data: any;
@@ -36,7 +42,20 @@ const renderers = [
     tester: myAddressTester,
     renderer: AddressControl,
   },
+  {
+    tester: myExpensiveTester,
+    renderer: ExpensiveTextControl,
+  },
 ];
+
+const translations = {
+  required: "Eingabe erforderlich",
+  format: "fehlerhafte Eingabe",
+};
+
+const translateError = (keyword: string) => {
+  return (translations as any)[keyword] || keyword;
+};
 
 export const MyJsonForms: React.FC<Props> = ({ data, onData, schema, uischema }) => {
   const {
@@ -48,6 +67,9 @@ export const MyJsonForms: React.FC<Props> = ({ data, onData, schema, uischema })
   return (
     <Root>
       <JsonForms
+        i18n={{
+          translateError: (error) => translateError(error.keyword),
+        }}
         schema={schema}
         uischema={uischema}
         data={data}

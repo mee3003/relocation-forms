@@ -2,7 +2,10 @@ import React from "react";
 import { DatePicker } from "../commons/date-picker";
 
 import styled from "@emotion/styled";
-import { useOrderContext } from "../../context/OrderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../store";
+import { setOrderProps } from "../../store/orderReducer";
+import { Order } from "../../types";
 import { YesNo } from "../commons/yes-no/YesNo";
 
 const Wrapper = styled.div`
@@ -14,23 +17,33 @@ const Wrapper = styled.div`
 `;
 
 export const DateWidget: React.FC = () => {
-  const { state: order, dispatch } = useOrderContext();
+  const dispatch = useDispatch();
+
+  const order = useSelector<AppState, Order>((state) => state.order);
 
   const onDateFixChange = (value: boolean) => {
-    dispatch({ type: "SET_ORDER_PROP", payload: { prop: "isDateFix", value } });
+    dispatch(setOrderProps({ prop: "isDateFix", value }));
   };
 
-  const onDateChange = (newDate: any, prop: "date" | "date_from" | "date_to") => {
-    dispatch({ type: "SET_ORDER_PROP", payload: { prop, value: Date.parse(newDate) } });
+  const onDateChange = (value: any, prop: "date" | "date_from" | "date_to") => {
+    dispatch(setOrderProps({ prop, value: Date.parse(value) }));
   };
 
   return (
     <div>
-      <YesNo label="Steht Ihr Umzugsdatum fest?" value={order.isDateFix} onChange={onDateFixChange} />
+      <YesNo
+        label="Steht Ihr Umzugsdatum fest?"
+        value={order.isDateFix}
+        onChange={onDateFixChange}
+      />
 
       {order.isDateFix === true ? (
         <Wrapper>
-          <DatePicker value={order.date} onChange={(date) => onDateChange(date, "date")} label="Umzugsdatum" />
+          <DatePicker
+            value={order.date}
+            onChange={(date) => onDateChange(date, "date")}
+            label="Umzugsdatum"
+          />
         </Wrapper>
       ) : (
         <Wrapper>

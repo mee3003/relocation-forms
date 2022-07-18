@@ -7,4 +7,5 @@ export const PageRoot = styled.div`
   margin: auto;
   gap: 3rem;
   padding: 0.6rem;
+  background: white;
 `;

@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { JsonSchema } from "@jsonforms/core";
 import React from "react";
-import { useOrderContext } from "../../context/OrderContext";
 import { Address } from "../../types";
 import { MyJsonForms } from "../my-forms";
 import { hausStockwerke, liftSchema, part1, part2, stockwerkSchema } from "./addressSchema";
@@ -15,7 +14,7 @@ interface Props {
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 2rem;
 `;
 
 export const AddressRenderer: React.FC<Props> = ({ data, onData, config }) => {

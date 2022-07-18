@@ -3,6 +3,7 @@ import catReducer from "./catReducer";
 import itemsReducer from "./itemsReducer";
 import optionsReducer from "./optionsReducer";
 import servicesReducer from "./servicesReducer";
+import orderReducer from "./orderReducer";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     appCategories: catReducer,
     appServices: servicesReducer,
     appItems: itemsReducer,
+    order: orderReducer,
   },
 });
 

@@ -25,7 +25,9 @@ interface AppContextState {
 
 type AppDispatch = (action: Action) => void;
 
-const AppContext = React.createContext<{ state: AppContextState; dispatch: AppDispatch } | undefined>(undefined);
+const AppContext = React.createContext<
+  { state: AppContextState; dispatch: AppDispatch } | undefined
+>(undefined);
 
 const reducer = (state: AppContextState, action: Action): AppContextState => {
   switch (action.type) {

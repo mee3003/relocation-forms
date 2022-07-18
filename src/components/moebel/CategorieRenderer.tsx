@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { useOrderContext } from "../../context/OrderContext";
 import { AppState } from "../../store";
 import { Item } from "../../types";
 import { Heading } from "../commons/heading";
@@ -11,14 +10,12 @@ const Root = styled.div`
   width: 100%;
 `;
 
-const Items = styled.div`
+export const Items = styled.div`
   padding: 40px 0;
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
 `;
-
-const Wrapper = styled.div``;
 
 interface Props {
   categorie: string;
@@ -27,13 +24,7 @@ interface Props {
 }
 
 export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescription, id }) => {
-  const { dispatch } = useOrderContext();
-
   const allItems = useSelector<AppState, Item[]>((state) => state.appItems.items);
-
-  const onChange = (item: Item, value: number) => {
-    dispatch({ type: "SET_ORDER_ITEM", payload: { item, value, categorie } });
-  };
 
   const filtered = useMemo(() => {
     const filtered = allItems.filter(
@@ -47,20 +38,11 @@ export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescrip
   return (
     <Root>
       <Heading label={categorie} subLabel={categorieDescription} />
-      <Wrapper>
-        <Items>
-          {filtered.map((i) => (
-            <ItemRenderer
-              categorie={categorie}
-              onChange={(value) => {
-                onChange(i, value);
-              }}
-              key={i.name}
-              item={i}
-            />
-          ))}
-        </Items>
-      </Wrapper>
+      <Items>
+        {filtered.map((i) => (
+          <ItemRenderer categorie={categorie} key={i.name} item={i} />
+        ))}
+      </Items>
     </Root>
   );
 };

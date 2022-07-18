@@ -5,8 +5,8 @@ import React from "react";
 const Root = styled.div`
   display: flex;
   justify-content: end;
-  padding: 1.2rem 0.6rem;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.42); ;
+  padding: 1.2em 0.6em;
+  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.42); ;
 `;
 
 export const Heading: React.FunctionComponent<{

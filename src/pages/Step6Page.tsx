@@ -1,6 +1,14 @@
 import React from "react";
-import { Heading } from "../components/commons/heading";
+import { Anmerkung } from "../components/anmerkung/Anmerkung";
+import { ImageUploader } from "../components/image-uploader";
+import { OrderUploader } from "../components/order-uploader";
 
 export const Step6Page: React.FC = () => {
-  return <>seite 6</>;
+  return (
+    <>
+      <Anmerkung />
+      <ImageUploader />
+      <OrderUploader />
+    </>
+  );
 };
