@@ -1,4 +1,3 @@
-import { Stepper } from "@mui/material";
 import React, { useEffect } from "react";
 import { Provider, useDispatch } from "react-redux";
 import { HashRouter } from "react-router-dom";
@@ -10,6 +9,7 @@ import { loadAllCategories } from "./store/catReducer";
 import { loadAllItems } from "./store/itemsReducer";
 import { loadAllOptions } from "./store/optionsReducer";
 import { loadAllServices } from "./store/servicesReducer";
+import { Stepper } from "./components/stepper";
 
 function App() {
   return (
