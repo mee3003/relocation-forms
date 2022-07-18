@@ -51,10 +51,6 @@ export interface Order {
   kleiderbox: number;
   boxNumber: number;
   text: string;
-  usmFlag: boolean;
-  usmText: string;
-  disposalFlag: boolean;
-  disposalText: string;
   creationTime: string;
   expensive: boolean;
   expensiveText: string;

@@ -9,12 +9,13 @@ import * as AWS from "aws-sdk";
 import { addImage, removeImage } from "../../store/orderReducer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useAppContext } from "../../context/AppContext";
 
-function initAws() {
+function initAws(poolId: string) {
   AWS.config.update({
     region: "eu-central-1",
     credentials: new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: process.env.REACT_APP_AWS_POOL_ID!,
+      IdentityPoolId: poolId,
     }),
   });
 }
@@ -32,12 +33,20 @@ function createFolderPath(name: string) {
 export const ImageUploader = () => {
   const images = useSelector<AppState, string[]>((state) => state.order.images);
   const name = useSelector<AppState, string>((state) => state.order.customer.lastName) || "no";
+  const {
+    state: { moduleProperties },
+  } = useAppContext();
 
   const [showLoading, setShowLoading] = useState(false);
 
   const dispatch = useDispatch();
 
-  React.useEffect(initAws, []);
+  React.useEffect(() => {
+    if (moduleProperties) {
+      const { awsPoolId } = moduleProperties;
+      initAws(awsPoolId!);
+    }
+  }, []);
 
   function onFilesChange(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;

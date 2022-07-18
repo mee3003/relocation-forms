@@ -3,6 +3,7 @@ import { withJsonFormsControlProps } from "@jsonforms/react";
 import { TextField } from "@mui/material";
 import { Loader } from "@googlemaps/js-api-loader";
 import styled from "@emotion/styled";
+import { useAppContext } from "../../../context/AppContext";
 
 const Root = styled.div`
   width: 100%;
@@ -17,10 +18,14 @@ const options: any = {
 };
 
 const AddressControl = (props: any) => {
+  const {
+    state: { moduleProperties },
+  } = useAppContext();
+
   const { label, data, handleChange, path, required } = props;
 
   const initGoogleAutocomplete = () => {
-    const apiKey = process.env.REACT_APP_GOOGLE_API_KEY!;
+    const apiKey = moduleProperties?.gapiKey || "no";
     const loader = new Loader({
       apiKey,
       libraries: ["places"],

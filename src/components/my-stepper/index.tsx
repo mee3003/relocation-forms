@@ -11,7 +11,7 @@ const Root = styled.div`
 
 const routes = ["1", "2", "3", "4", "5", "6"].map((r) => "/" + r);
 
-export const Stepper: React.FC = () => {
+export const MyStepper: React.FC = () => {
   const { pathname } = useLocation();
   const {
     state: { errors = [] },

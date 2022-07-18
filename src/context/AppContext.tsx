@@ -1,4 +1,5 @@
 import React, { useContext, useReducer } from "react";
+import { ModuleProps } from "../Module";
 
 type ValidationMode = "ValidateAndHide" | "ValidateAndShow";
 
@@ -16,11 +17,19 @@ type SetValidationMode = {
   };
 };
 
-type Action = SetErrorsAction | SetValidationMode;
+type SetModuleProperties = {
+  type: "SET_MODULE_PROPERTIES";
+  payload: {
+    props: ModuleProps;
+  };
+};
+
+type Action = SetErrorsAction | SetValidationMode | SetModuleProperties;
 
 interface AppContextState {
   validationMode: ValidationMode;
   errors: any;
+  moduleProperties?: ModuleProps;
 }
 
 type AppDispatch = (action: Action) => void;
@@ -36,6 +45,9 @@ const reducer = (state: AppContextState, action: Action): AppContextState => {
 
     case "SET_VALIDATION_MODE":
       return { ...state, validationMode: action.payload.mode };
+
+    case "SET_MODULE_PROPERTIES":
+      return { ...state, moduleProperties: action.payload.props };
     default:
       return state;
   }

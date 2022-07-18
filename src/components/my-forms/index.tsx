@@ -38,10 +38,7 @@ const renderers = [
     tester: myParkingTester,
     renderer: ParkingControl,
   },
-  {
-    tester: myAddressTester,
-    renderer: AddressControl,
-  },
+
   {
     tester: myExpensiveTester,
     renderer: ExpensiveTextControl,
@@ -59,10 +56,23 @@ const translateError = (keyword: string) => {
 
 export const MyJsonForms: React.FC<Props> = ({ data, onData, schema, uischema }) => {
   const {
-    state: { validationMode },
+    state: { validationMode, moduleProperties },
   } = useAppContext();
 
   const { dispatch } = useAppContext();
+
+  React.useEffect(() => {
+    if (moduleProperties) {
+      const { gapiEnabled } = moduleProperties;
+      console.debug("Gapi enabled: ", gapiEnabled);
+      if (gapiEnabled == "true") {
+        renderers.push({
+          tester: myAddressTester,
+          renderer: AddressControl,
+        });
+      }
+    }
+  }, []);
 
   return (
     <Root>
