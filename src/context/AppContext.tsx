@@ -30,6 +30,7 @@ interface AppContextState {
   validationMode: ValidationMode;
   errors: any;
   moduleProperties?: ModuleProps;
+  showVerpackung: boolean;
 }
 
 type AppDispatch = (action: Action) => void;
@@ -56,6 +57,7 @@ const reducer = (state: AppContextState, action: Action): AppContextState => {
 const initialState: AppContextState = {
   validationMode: "ValidateAndHide",
   errors: undefined,
+  showVerpackung: true,
 };
 
 const AppContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {

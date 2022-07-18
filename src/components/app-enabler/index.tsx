@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import { useAppContext } from "../../context/AppContext";
+import { useDispatch, useSelector } from "react-redux";
 import { ModuleProps } from "../../Module";
+import { AppState } from "../../store";
+import { setModuleProps } from "../../store/preferencesReducer";
 
 interface Props extends ModuleProps, React.PropsWithChildren {}
 
@@ -12,18 +14,27 @@ export const AppEnabler: React.FC<Props> = ({
   gapiEnabled,
   gapiKey,
 }) => {
-  const { state, dispatch } = useAppContext();
+  const dispatch = useDispatch();
 
-  const appProperties = state.moduleProperties;
+  const moduleProperties = useSelector<AppState, ModuleProps | undefined>(
+    (state) => state.preferences.moduleProperties
+  );
 
   useEffect(() => {
-    dispatch({
-      type: "SET_MODULE_PROPERTIES",
-      payload: { props: { awsImageUploadEnabled, awsPoolId, backendUrl, gapiEnabled, gapiKey } },
-    });
+    dispatch(
+      setModuleProps({
+        props: {
+          awsImageUploadEnabled,
+          awsPoolId,
+          backendUrl,
+          gapiEnabled,
+          gapiKey,
+        },
+      })
+    );
   }, []);
 
-  if (appProperties !== undefined) {
+  if (moduleProperties !== undefined) {
     return <>{children}</>;
   }
   return <></>;
