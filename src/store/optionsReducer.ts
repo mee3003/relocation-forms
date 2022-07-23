@@ -9,9 +9,12 @@ export interface Options {
   [name: string]: string;
 }
 
-export const loadAllOptions = createAsyncThunk("options/setAllOptions", () => {
-  return getRequest<Options>("options");
-});
+export const loadAllOptions = createAsyncThunk(
+  "options/setAllOptions",
+  (payload: { tenant: string; backendUrl: string }) => {
+    return getRequest<any>(`${payload.backendUrl}/api/options`, payload.tenant);
+  }
+);
 
 const optionsSlice = createSlice<AppOptions, any, "options">({
   name: "options",
@@ -21,9 +24,18 @@ const optionsSlice = createSlice<AppOptions, any, "options">({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loadAllOptions.fulfilled, (state, action) => {
-      state.options = action.payload;
+      const converted = convertData(action.payload.data);
+      state.options = converted;
     });
   },
 });
+
+const convertData = (data: any[]) => {
+  const options: Options = {};
+  data.forEach((e) => {
+    options[e.attributes.name] = e.attributes.value;
+  });
+  return options;
+};
 
 export default optionsSlice.reducer;

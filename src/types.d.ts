@@ -10,8 +10,9 @@ export interface Customer {
 
 export interface Category {
   id: string;
-  slug: string;
+  subtitle: string;
   name: string;
+  sortorder: number;
 }
 
 export interface Option {
@@ -26,15 +27,7 @@ export interface Item {
   id: string;
   colli: number;
   volume: number;
-  demontage?: boolean;
-  notDismountable?: boolean;
-  bulky?: boolean;
-  montage?: boolean;
-  m100?: boolean;
-  m150?: boolean;
-  extraPrice?: string;
-  montagePrice: string;
-  sortOrder: number;
+  sortorder: number;
   step?: number;
 }
 
@@ -68,6 +61,15 @@ export interface Service {
   colli: string;
   imgUrl: string;
   show: boolean;
+}
+
+export interface Packing {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  colli: number;
+  imgUrl: string;
 }
 
 export interface Address {

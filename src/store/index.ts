@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import catReducer from "./catReducer";
 import itemsReducer from "./itemsReducer";
 import optionsReducer from "./optionsReducer";
-import servicesReducer from "./servicesReducer";
+import packingsReducer from "./packingsReducer";
 import orderReducer from "./orderReducer";
 import preferencesReducer from "./preferencesReducer";
 
@@ -10,7 +10,7 @@ export const store = configureStore({
   reducer: {
     appOptions: optionsReducer,
     appCategories: catReducer,
-    appServices: servicesReducer,
+    appPackings: packingsReducer,
     appItems: itemsReducer,
     order: orderReducer,
     preferences: preferencesReducer,

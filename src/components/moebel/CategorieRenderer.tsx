@@ -30,7 +30,7 @@ export const CategorieRenderer: React.FC<Props> = ({ categorie, categorieDescrip
     const filtered = allItems.filter(
       (item) => item.categoryRefs?.findIndex((c) => c.id == id) > -1
     );
-    filtered.sort((a, b) => a.sortOrder - b.sortOrder);
+    filtered.sort((a, b) => a.sortorder - b.sortorder);
 
     return filtered;
   }, [allItems, id]);

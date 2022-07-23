@@ -13,6 +13,8 @@ export const AppEnabler: React.FC<Props> = ({
   children,
   gapiEnabled,
   gapiKey,
+  apiKey,
+  tenant,
 }) => {
   const dispatch = useDispatch();
 
@@ -29,6 +31,8 @@ export const AppEnabler: React.FC<Props> = ({
           backendUrl,
           gapiEnabled,
           gapiKey,
+          apiKey,
+          tenant,
         },
       })
     );

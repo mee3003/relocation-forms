@@ -8,6 +8,8 @@ function App() {
     gapiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     awsImageUploadEnabled: process.env.REACT_APP_PICTURE_UPLOAD,
     awsPoolId: process.env.REACT_APP_AWS_POOL_ID,
+    apiKey: process.env.REACT_APP_API_TOKEN!,
+    tenant: "DEV",
   };
 
   return (

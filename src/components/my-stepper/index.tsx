@@ -2,8 +2,10 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button/Button";
 import MobileStepper from "@mui/material/MobileStepper";
 import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
+import { AppState } from "../../store";
+import { setValidationMode } from "../../store/preferencesReducer";
 
 const Root = styled.div`
   padding: 1rem 0;
@@ -13,10 +15,9 @@ const routes = ["1", "2", "3", "4", "5", "6"].map((r) => "/" + r);
 
 export const MyStepper: React.FC = () => {
   const { pathname } = useLocation();
-  const {
-    state: { errors = [] },
-    dispatch,
-  } = useAppContext();
+  const dispatch = useDispatch();
+
+  const errors = useSelector<AppState, any>((state) => state.preferences.errors);
 
   const navigate = useNavigate();
 
@@ -43,9 +44,9 @@ export const MyStepper: React.FC = () => {
   const forward = () => {
     if (errors.length > 0) {
       console.log(errors);
-      dispatch({ type: "SET_VALIDATION_MODE", payload: { mode: "ValidateAndShow" } });
+      dispatch(setValidationMode({ mode: "ValidateAndShow" }));
     } else {
-      dispatch({ type: "SET_VALIDATION_MODE", payload: { mode: "ValidateAndHide" } });
+      dispatch(setValidationMode({ mode: "ValidateAndHide" }));
       const index = getPathIndex();
 
       if (index < routes.length) {

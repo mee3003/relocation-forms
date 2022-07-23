@@ -9,7 +9,7 @@ import * as AWS from "aws-sdk";
 import { addImage, removeImage } from "../../store/orderReducer";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useAppContext } from "../../context/AppContext";
+import { ModuleProps } from "../../Module";
 
 function initAws(poolId: string) {
   AWS.config.update({
@@ -33,9 +33,9 @@ function createFolderPath(name: string) {
 export const ImageUploader = () => {
   const images = useSelector<AppState, string[]>((state) => state.order.images);
   const name = useSelector<AppState, string>((state) => state.order.customer.lastName) || "no";
-  const {
-    state: { moduleProperties },
-  } = useAppContext();
+  const moduleProperties = useSelector<AppState, ModuleProps | undefined>(
+    (state) => state.preferences.moduleProperties
+  );
 
   const [showLoading, setShowLoading] = useState(false);
 
@@ -46,7 +46,7 @@ export const ImageUploader = () => {
       const { awsPoolId } = moduleProperties;
       initAws(awsPoolId!);
     }
-  }, []);
+  }, [moduleProperties]);
 
   function onFilesChange(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;

@@ -1,11 +1,21 @@
-const prefix = process.env.REACT_APP_BACKEND + "/wp-json/um-configurator/v1/";
-
 const headers: any = {
   "Content-Type": "application/json; charset=UTF-8",
+  Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
 };
 
-export const getRequest = <T>(url: string) => {
-  return fetch(prefix.concat(url), {
+const tenantFilter = (tenant: string) => `?filters[tenant][$eq]=${tenant}`;
+
+export const getRequest = <T>(url: string, tenant: string, populate?: string) => {
+  const buildUrl = (populate?: string) => {
+    let r = url.concat(tenantFilter(tenant));
+
+    if (populate) {
+      r = r.concat("&").concat(populate);
+    }
+    return r;
+  };
+
+  return fetch(buildUrl(populate), {
     method: "GET",
     headers,
   }).then(async (response) => {
@@ -18,7 +28,7 @@ export const getRequest = <T>(url: string) => {
 };
 
 export const postRequest = <T>(url: string, body: any) => {
-  return fetch(prefix.concat(url), {
+  return fetch(url, {
     method: "POST",
     headers,
     body: JSON.stringify(body),

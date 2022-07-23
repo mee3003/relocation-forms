@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import React, { useMemo } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { setShowVerpackung } from "../../store/preferencesReducer";
-import { Service } from "../../types";
+import { Packing } from "../../types";
 import { YesNo } from "../commons/yes-no/YesNo";
 
 export const Verpackung = () => {
@@ -13,10 +13,7 @@ export const Verpackung = () => {
     (state) => state.preferences.showVerpackung
   );
 
-  const services = useSelector<AppState, Service[]>((state) => state.appServices.services);
-  const verpackung = useMemo(() => {
-    return services.filter((s) => s.tag === "Packmaterial");
-  }, [dispatch, services]);
+  const verpackung = useSelector<AppState, Packing[]>((state) => state.appPackings.packings);
 
   function onShowChange(show: boolean) {
     dispatch(setShowVerpackung({ show }));
@@ -29,7 +26,7 @@ export const Verpackung = () => {
 
 interface Props {
   show: boolean;
-  verpackung: Service[];
+  verpackung: Packing[];
   onShowChange(show: boolean): void;
 }
 
@@ -64,6 +61,6 @@ const VerpackungRenderer: React.FC<Props> = ({ onShowChange, show, verpackung })
   );
 };
 
-const VerpackungsItem: React.FC<{ v: Service }> = ({ v }) => {
+const VerpackungsItem: React.FC<{ v: Packing }> = ({ v }) => {
   return <div>{v.name}</div>;
 };

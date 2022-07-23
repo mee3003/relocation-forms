@@ -3,7 +3,9 @@ import { withJsonFormsControlProps } from "@jsonforms/react";
 import { TextField } from "@mui/material";
 import { Loader } from "@googlemaps/js-api-loader";
 import styled from "@emotion/styled";
-import { useAppContext } from "../../../context/AppContext";
+import { useSelector } from "react-redux";
+import { ModuleProps } from "../../../Module";
+import { AppState } from "../../../store";
 
 const Root = styled.div`
   width: 100%;
@@ -18,9 +20,9 @@ const options: any = {
 };
 
 const AddressControl = (props: any) => {
-  const {
-    state: { moduleProperties },
-  } = useAppContext();
+  const moduleProperties = useSelector<AppState, ModuleProps | undefined>(
+    (state) => state.preferences.moduleProperties
+  );
 
   const { label, data, handleChange, path, required } = props;
 
@@ -42,7 +44,7 @@ const AddressControl = (props: any) => {
     });
   };
 
-  React.useEffect(initGoogleAutocomplete, []);
+  React.useEffect(initGoogleAutocomplete, [moduleProperties, path, handleChange]);
 
   return (
     <Root>

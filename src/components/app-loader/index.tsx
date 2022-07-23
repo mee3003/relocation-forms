@@ -1,19 +1,26 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ModuleProps } from "../../Module";
+import { AppState } from "../../store";
 import { loadAllCategories } from "../../store/catReducer";
 import { loadAllItems } from "../../store/itemsReducer";
 import { loadAllOptions } from "../../store/optionsReducer";
-import { loadAllServices } from "../../store/servicesReducer";
-import React from "react";
+import { loadAllPackings } from "../../store/packingsReducer";
 
 export const AppLoader: React.FC<React.PropsWithChildren> = ({ children }) => {
   const dispatch = useDispatch();
 
+  const moduleProperties = useSelector<AppState, ModuleProps | undefined>(
+    (state) => state.preferences.moduleProperties
+  );
+
   useEffect(() => {
-    [loadAllOptions, loadAllCategories, loadAllServices, loadAllItems].map((action) => {
-      dispatch(action());
+    [loadAllOptions, loadAllCategories, loadAllPackings, loadAllItems].forEach((action) => {
+      dispatch(
+        action({ backendUrl: moduleProperties?.backendUrl!, tenant: moduleProperties?.tenant! })
+      );
     });
-  }, [dispatch]);
+  }, [dispatch, moduleProperties]);
 
   return <>{children}</>;
 };
