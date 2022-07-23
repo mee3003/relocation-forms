@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Item, Order, Service } from "../types";
+import { Options } from "./optionsReducer";
 
 const initialState = {
   customer: {
@@ -10,6 +11,7 @@ const initialState = {
   isDateFix: false,
   expensive: false,
   images: new Array<string>(),
+  volume: "0",
   from: {
     address: "",
     parkingSlot: false,
@@ -30,15 +32,53 @@ const initialState = {
   },
 } as Order;
 
+const itemsVolume = (items: Item[]): number => {
+  return items.reduce((acc, cur) => {
+    return acc + cur.volume * cur.colli;
+  }, 0);
+};
+
+const calcVolume = (
+  items: Item[],
+  boxNumber: number,
+  kleiderbox: number,
+  options: Options
+): string => {
+  return [
+    itemsVolume(items),
+    (kleiderbox || 0) * Number(options.kleiderboxCbm),
+    (boxNumber || 0) * Number(options.boxCbm),
+  ]
+    .reduce((acc, cur) => acc + cur)
+    .toFixed(2);
+};
+
 const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setBox(state, action: PayloadAction<{ value: number; options: Options }>) {
+      state.boxNumber = action.payload.value;
+      state.volume = calcVolume(
+        state.items,
+        state.boxNumber,
+        state.kleiderbox,
+        action.payload.options
+      );
+    },
+    setKleiderBox(state, action: PayloadAction<{ value: number; options: Options }>) {
+      state.kleiderbox = action.payload.value;
+      state.volume = calcVolume(
+        state.items,
+        state.boxNumber,
+        state.kleiderbox,
+        action.payload.options
+      );
+    },
     setOrderProps(state, action: PayloadAction<{ prop: keyof Order; value: any }>) {
       const { prop, value } = action.payload;
       //@ts-ignore
       state[prop] = value;
-      return;
     },
 
     addImage(state, action: PayloadAction<{ imageUrl: string }>) {
@@ -52,8 +92,11 @@ const orderSlice = createSlice({
       state.images = state.images.filter((i) => i !== action.payload.imageUrl);
     },
 
-    setItem(state, action: PayloadAction<{ value: number; item: Item; categorie: string }>) {
-      const { item, value, categorie } = action.payload;
+    setItem(
+      state,
+      action: PayloadAction<{ value: number; item: Item; categorie: string; options: Options }>
+    ) {
+      const { item, value, categorie, options } = action.payload;
       const newItems = [...state.items];
 
       const itemIndex = newItems.findIndex((i) => {
@@ -66,10 +109,12 @@ const orderSlice = createSlice({
         newItems.push({ ...item, colli: value, categories: [categorie] });
       }
       state.items = newItems;
+      state.volume = calcVolume(newItems, state.boxNumber, state.kleiderbox, options);
     },
   },
 });
 
 export default orderSlice.reducer;
 
-export const { setOrderProps, setItem, addImage, removeImage } = orderSlice.actions;
+export const { setOrderProps, setItem, addImage, removeImage, setBox, setKleiderBox } =
+  orderSlice.actions;

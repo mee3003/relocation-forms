@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
-import { setOrderProps } from "../../store/orderReducer";
+import { Options } from "../../store/optionsReducer";
+import { setBox, setKleiderBox } from "../../store/orderReducer";
 import { Order } from "../../types";
 import { NumberInput } from "../commons/number-input";
 import { Items } from "../moebel/CategorieRenderer";
@@ -10,12 +11,14 @@ export const Kartons: React.FC = () => {
   const dispatch = useDispatch();
   const order = useSelector<AppState, Order>((state) => state.order);
 
+  const options = useSelector<AppState, Options>((state) => state.appOptions.options);
+
   const onBoxChange = (value: number) => {
-    dispatch(setOrderProps({ prop: "boxNumber", value }));
+    dispatch(setBox({ value, options }));
   };
 
   const onKleiderboxChange = (value: number) => {
-    dispatch(setOrderProps({ prop: "kleiderbox", value }));
+    dispatch(setKleiderBox({ value, options }));
   };
 
   return (

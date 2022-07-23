@@ -1,5 +1,10 @@
 import styled from "@emotion/styled";
-import { JsonSchema, UISchemaElement, ValidationMode } from "@jsonforms/core";
+import {
+  JsonFormsRendererRegistryEntry,
+  JsonSchema,
+  UISchemaElement,
+  ValidationMode,
+} from "@jsonforms/core";
 import { materialCells, materialRenderers } from "@jsonforms/material-renderers";
 import { JsonForms } from "@jsonforms/react";
 import React from "react";
@@ -31,7 +36,7 @@ const Root = styled.div`
   }
 `;
 
-const renderers = [
+const renderers: JsonFormsRendererRegistryEntry[] = [
   ...materialRenderers,
   {
     tester: myBooleanTester,

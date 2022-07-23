@@ -29,6 +29,7 @@ export const part1 = (movementLabel: string): JsonSchema => ({
     address: {
       title: "Adresse",
       type: "string",
+      minLength: 1,
     },
     parkingSlot: {
       title: "Park- und Beladezone",

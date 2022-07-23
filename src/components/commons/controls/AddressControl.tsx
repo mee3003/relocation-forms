@@ -26,6 +26,8 @@ const AddressControl = (props: any) => {
 
   const { label, data, handleChange, path, required } = props;
 
+  console.log(props);
+
   const initGoogleAutocomplete = () => {
     const apiKey = moduleProperties?.gapiKey || "no";
     const loader = new Loader({

@@ -27,8 +27,10 @@ const LabelWrapper = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-export const NumberInput: React.FC<Props> = ({ value = "", label, onChange, step = 1 }) => {
+export const NumberInput: React.FC<Props> = ({ value = "", label, onChange, step }) => {
   const inputId = useId();
+
+  let _step = step != null ? step : 1;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(Number(event.target.value));
@@ -41,14 +43,14 @@ export const NumberInput: React.FC<Props> = ({ value = "", label, onChange, step
   const onMinus = () => {
     focusInput();
     if (typeof value === "number" && value > 0) {
-      onChange(value - step);
+      onChange(value - _step);
     }
   };
 
   const onPlus = () => {
     focusInput();
     if (typeof value === "number") {
-      return onChange(value + step);
+      return onChange(value + _step);
     }
     onChange(1);
   };
@@ -65,7 +67,7 @@ export const NumberInput: React.FC<Props> = ({ value = "", label, onChange, step
           </IconButton>
           <TextField
             //@ts-ignore
-            step={step}
+            step={_step}
             id={inputId}
             placeholder={"0"}
             inputProps={{ min: 0, style: { textAlign: "center" } }}

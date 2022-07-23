@@ -15,11 +15,6 @@ export interface Category {
   sortorder: number;
 }
 
-export interface Option {
-  key: string;
-  value: string;
-}
-
 export interface Item {
   categoryRefs: Category[];
   categories: string[];
